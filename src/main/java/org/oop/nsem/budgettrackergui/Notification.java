@@ -22,4 +22,9 @@ public class Notification {
     public String getDate() {
         return date;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s,%s,%s",date,type,message);
+    }
 }

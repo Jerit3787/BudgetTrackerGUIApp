@@ -5,3 +5,5 @@
 test,10.00,test1,test,Income
 test,10.00,test1,test,Income
 test,10.00,test1,test,Expenses
+today,100.00,test1,test,Expenses
+test,20.00,test1,test,Expenses

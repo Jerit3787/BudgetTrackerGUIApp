@@ -51,6 +51,16 @@ public class BudgetGUI {
 
         double usedLength = (remaining / total) * 1000;
 
+        if (remaining < (total*0.1)) {
+            ArrayList<Notification> notificationList = new ArrayList<Notification>();
+            NotificationFunction notification = new NotificationFunction(currentUserId, notificationList);
+            notification.addNotification("13/06/2024", "Caution", String.format("You have RM%.2f left for this month", remaining));
+        } else if (remaining < 0) {
+            ArrayList<Notification> notificationList = new ArrayList<Notification>();
+            NotificationFunction notification = new NotificationFunction(currentUserId, notificationList);
+            notification.addNotification("13/06/2024", "Warning", String.format("You have exceed RM%.2f for this month", remaining));
+        }
+
         usedProgress.getStyleClass().add("no-category");
         usedProgress.setPrefWidth(usedLength);
         HBox budgetProgress = new HBox(usedProgress);

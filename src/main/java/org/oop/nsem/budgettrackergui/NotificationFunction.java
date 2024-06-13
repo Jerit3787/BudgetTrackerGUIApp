@@ -19,6 +19,12 @@ public class NotificationFunction {
         this.notificationsList = notificationsList;
     }
 
+    public void addNotification(String date, String type, String message) {
+        Notification notification = new Notification(date, type, message);
+        notificationsList.add(notification);
+        util.saveNotificationFile(notification.toString(), currentUserId);
+    }
+
     public ArrayList<Notification> loadNotification() {
         notificationsList = new ArrayList<Notification>();
         Path path = Paths.get(util.getNotificationPath(currentUserId));
