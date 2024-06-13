@@ -192,10 +192,22 @@ public class TransactionGUI {
         return vbox;
     }
 
+    public void removeFile() {
+        Transaction item = (Transaction) table.getSelectionModel().getSelectedItem();
+        for (Transaction transaction: transactionsList) {
+            if (item.equals(transaction)) {
+                transactionsList.remove(transaction);
+            }
+        }
+    }
+
     public VBox createUI() {
         HBox addButton = ui.createButton("Add", "mdi2c-chart-box-plus-outline", () -> createTypeForm());
+        HBox removeButton = ui.createButton("Remove", "mdi2c-chart-box-plus-outline", () -> removeFile());
 
-        HBox topBar = ui.createTopBar("Transaction", addButton);
+        HBox buttons = new HBox(addButton, removeButton);
+
+        HBox topBar = ui.createTopBar("Transaction", buttons);
 
         VBox transactions = createTable();
 
