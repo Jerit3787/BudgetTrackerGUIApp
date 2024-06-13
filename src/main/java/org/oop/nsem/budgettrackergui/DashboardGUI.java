@@ -4,9 +4,12 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -25,6 +28,8 @@ public class DashboardGUI {
     private String currentUserId;
     private ArrayList<User> user;
     private String displayName;
+    private ArrayList<Budget> budgetsList = new ArrayList<Budget>();
+    private ArrayList<Transaction> transactions = new ArrayList<Transaction>();
 
     public DashboardGUI(String id, ArrayList<User> user) {
         this.currentUserId = id;
@@ -55,6 +60,7 @@ public class DashboardGUI {
                 break;
             case "Notifications":
                 button = noti;
+                System.out.println("Configuring notification");
                 break;
             default:
                 button = new Button();
@@ -109,6 +115,7 @@ public class DashboardGUI {
                     noti.getStyleClass().add("navigation-button-enabled");
                     triggerNotifications();
                 };
+                break;
             default:
                 clickEvent = event -> {};
                 break;
@@ -148,25 +155,195 @@ public class DashboardGUI {
         dashBox.getChildren().add(trans.createUI());
     }
     private void triggerNotifications() {
+        System.out.println("LAUNCHING NOTIFICATION");
         NotificationGUI noti = new NotificationGUI(currentUserId);
         dashBox.getChildren().remove(0);
         dashBox.getChildren().add(noti.createUI());
     }
 
+    private HBox createBudgetCard(String name, double used) {
+        Label subtitle = new Label(String.format("%s Budget", name));
+        Label value = new Label(String.format("RM%.2f left", used));
+        value.getStyleClass().add("value-text");
+
+        Label changesText = new Label("Resets");
+        Label dateText = new Label(" monthly");
+        HBox changesBox = new HBox();
+        changesBox.getChildren().addAll(changesText, dateText);
+
+        VBox dataBox = new VBox();
+        dataBox.getChildren().addAll(subtitle, value, changesBox);
+
+        FontIcon icon = new FontIcon("mdi2s-shopping");
+        icon.setIconSize(48);
+        icon.setIconColor(Color.WHITE);
+
+        VBox iconBox = new VBox();
+        iconBox.getChildren().add(icon);
+        iconBox.getStyleClass().add("material-icon-box");
+        iconBox.setAlignment(Pos.CENTER);
+        iconBox.setPrefHeight(64);
+        iconBox.setPrefWidth(64);
+
+        Region r = new Region();
+        HBox.setHgrow(r, Priority.ALWAYS);
+
+        HBox card = new HBox();
+        card.setPrefWidth(380);
+        card.setPrefHeight(100);
+        card.getChildren().addAll(dataBox, r, iconBox);
+        card.getStyleClass().add("material-card");
+        card.setSpacing(6);
+
+        return card;
+    }
+
+    private HBox createRecentTransactionCard(String name, String desc, String date, double amount) {
+        FontIcon icon = new FontIcon("mdi2s-shopping");
+        icon.setIconSize(48);
+        icon.setIconColor(Color.WHITE);
+
+        VBox iconBox = new VBox();
+        iconBox.getChildren().add(icon);
+        iconBox.getStyleClass().add("material-icon-box");
+        iconBox.setAlignment(Pos.CENTER);
+        iconBox.setPrefHeight(64);
+        iconBox.setPrefWidth(64);
+
+        Label categoryText = new Label(name);
+        categoryText.getStyleClass().add("category-text");
+        Label subText = new Label(desc);
+
+        VBox dataBox1 = new VBox();
+        dataBox1.getChildren().addAll(categoryText, subText);
+
+        Region r = new Region();
+        HBox.setHgrow(r, Priority.ALWAYS);
+
+        Label dateText = new Label(date);
+        Region r2 = new Region();
+        HBox.setHgrow(r, Priority.ALWAYS);
+        Label amountText = new Label(String.format("RM%.2f", amount));
+        amountText.getStyleClass().add("value-text");
+
+        VBox dataBox2 = new VBox();
+        dataBox2.getChildren().addAll(dateText, r2,  amountText);
+        dataBox2.setSpacing(6);
+        dataBox2.setAlignment(Pos.CENTER_RIGHT);
+
+        HBox card = new HBox();
+        card.getChildren().addAll(iconBox, dataBox1, r, dataBox2);
+        card.getStyleClass().add("material-card");
+        card.setSpacing(12);
+
+        return card;
+    }
+
+    private VBox createUi() {
+        Label welcomeText = new Label(String.format("Welcome, %s", displayName));
+        welcomeText.getStyleClass().add("material-pageTitle");
+
+        Label budgetLabel = new Label("Overview");
+        budgetLabel.getStyleClass().add("budgets-title");
+        Region r = new Region();
+        HBox.setHgrow(r, Priority.ALWAYS);
+        budgetLabel.setAlignment(Pos.CENTER_RIGHT);
+        Button viewBudgetButton = new Button("View more");
+        viewBudgetButton.getStyleClass().add("view-button");
+
+        HBox topCardBudget = new HBox();
+        topCardBudget.getChildren().addAll(budgetLabel, r, viewBudgetButton);
+
+        BudgetFunction bud = new BudgetFunction(currentUserId, budgetsList);
+        ArrayList<Budget> budList = bud.loadBudget();
+        Double[] remaining = bud.checkRemaining();
+        int index = 0;
+        HBox cards = new HBox();
+        cards.setSpacing(6);
+
+        for (Budget budData: budList) {
+            HBox card1 = createBudgetCard(budData.getName(), remaining[index]);
+            cards.getChildren().add(card1);
+            index++;
+        }
+
+        VBox budgetsPanel = new VBox();
+        budgetsPanel.getChildren().addAll(topCardBudget, cards);
+
+        PieChart budgetChart = new PieChart();
+        budgetChart.setTitle("Budget Distribution");
+
+
+
+        ArrayList<PieChart.Data> testData = new ArrayList<PieChart.Data>();
+
+        Double[] total = bud.checkTotal();
+        int indexs = 0;
+
+        for(Double budData: total) {
+            testData.add(new PieChart.Data(budList.get(indexs).getName(), budData));
+        }
+
+        budgetChart.getData().addAll(testData);
+
+        VBox chartCard = new VBox();
+        chartCard.getChildren().add(budgetChart);
+        chartCard.getStyleClass().add("material-card");
+
+        Label transLabel = new Label("Recent Transactions");
+        transLabel.getStyleClass().add("budgets-title");
+        budgetLabel.setAlignment(Pos.CENTER_RIGHT);
+        Region r2 = new Region();
+        HBox.setHgrow(r, Priority.ALWAYS);
+        Button viewTransButton = new Button("View more");
+        viewTransButton.getStyleClass().add("view-button");
+
+        HBox topCardTrans = new HBox();
+        topCardTrans.getChildren().addAll(transLabel, r2, viewTransButton);
+        topCardTrans.setAlignment(Pos.CENTER_LEFT);
+        topCardTrans.setSpacing(140);
+
+        TransactionFunction trans = new TransactionFunction(currentUserId, transactions);
+
+        ArrayList<Transaction> transList = trans.loadTransaction();
+
+        VBox transCard = new VBox();
+        transCard.getChildren().addAll(topCardTrans);
+        transCard.setPrefWidth(580);
+        transCard.setSpacing(12);
+
+        for (Transaction transData: transList) {
+            HBox trans1 = createRecentTransactionCard(transData.getCategory(), transData.getDescription(), transData.getDate(), transData.getAmount());
+            transCard.getChildren().add(trans1);
+        }
+
+
+
+        HBox bottomPanel = new HBox();
+        bottomPanel.getChildren().addAll(chartCard, transCard);
+        bottomPanel.setSpacing(12);
+
+        VBox dashboardPanel = new VBox();
+        dashboardPanel.getChildren().addAll(welcomeText, budgetsPanel, bottomPanel);
+        dashboardPanel.getStyleClass().add("dashboard");
+        dashboardPanel.setPrefWidth(1160);
+        dashboardPanel.setPrefHeight(720);
+        dashboardPanel.setSpacing(12);
+
+        return dashboardPanel;
+    }
 
     public void loadUI(Stage stage) {
         VBox homeBox = createNavigationButton("Home", "mdi2h-home", true, "Home");
         VBox budgetBox = createNavigationButton("Budget", "mdi2c-chart-pie", false, "Budgets");
         VBox transactionBox = createNavigationButton("Transaction", "mdi2r-receipt", false, "Transactions");
-        VBox expensesBox = createNavigationButton("Expenses", "mdi2r-receipt", false, "");
         VBox notificationBox = createNavigationButton("Notification", "mdi2b-bell", false, "Notifications");
-        VBox settingsBox = createNavigationButton("Settings", "mdi2a-account-settings", false, "");
 
         VBox navigationPanel = new VBox();
         navigationPanel.setMinWidth(80);
         navigationPanel.setMinHeight(720);
         navigationPanel.setStyle("-fx-background-color: white;");
-        navigationPanel.getChildren().addAll(homeBox, budgetBox, transactionBox, expensesBox, notificationBox, settingsBox);
+        navigationPanel.getChildren().addAll(homeBox, budgetBox, transactionBox, notificationBox);
         navigationPanel.getStyleClass().add("navigation-bar");
 
         HBox root = new HBox();
@@ -174,7 +351,7 @@ public class DashboardGUI {
         root.setMaxHeight(720);
 
 
-        dashBox.getChildren().add(new VBox());
+        dashBox.getChildren().add(createUi());
 
         root.getChildren().addAll(navigationPanel, dashBox);
 

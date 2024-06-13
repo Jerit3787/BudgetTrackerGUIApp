@@ -21,7 +21,7 @@ public class NotificationFunction {
 
     public ArrayList<Notification> loadNotification() {
         notificationsList = new ArrayList<Notification>();
-        Path path = Paths.get(util.getTransactionPath(currentUserId));
+        Path path = Paths.get(util.getNotificationPath(currentUserId));
         try {
             fileScan = new Scanner(path);
 

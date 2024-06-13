@@ -62,7 +62,7 @@ public class NotificationGUI {
 
         VBox transactions = createTable();
 
-        VBox root = new VBox(topBar/*, transactions*/);
+        VBox root = new VBox(topBar, transactions);
         root.setSpacing(12);
         root.setPrefWidth(1160);
         root.setPrefHeight(720);
