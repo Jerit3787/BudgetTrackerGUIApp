@@ -1,0 +1,4 @@
+test1,Monthly,Entertainment,mdi2g-gamepad-variant-outline
+terst,Monthly,Groceries,mdi2s-shopping-outline
+test4,Monthly,Utility,mdi2t-tools
+tet4,Monthly,Other,mdi2f-finance

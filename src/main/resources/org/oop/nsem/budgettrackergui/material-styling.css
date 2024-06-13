@@ -1,0 +1,166 @@
+.root {
+    -fx-font-family: "Roboto";
+}
+
+.navigation-button {
+    -fx-background-color: white;
+    -fx-background-radius: 25;
+}
+
+.navigation-button-enabled {
+    -fx-background-color: #eee2bc
+}
+
+.navigation-label {
+    -fx-font-family:"Roboto";
+    -fx-font-weight: 700;
+    -fx-margin: 4 0 0 0;
+}
+
+.navigation-box {
+    -fx-margin: 12 0 0 0;
+}
+
+.navigation-bar {
+    -fx-padding: 64 0 0 0;
+}
+
+.dashboard {
+    -fx-padding: 16;
+}
+
+.material-pageTitle {
+    -fx-font-family: "Roboto";
+    -fx-font-weight: 600;
+    -fx-font-size: 32;
+}
+
+.budgets-title {
+    -fx-font-family: "Roboto";
+    -fx-font-weight: 700;
+    -fx-font-size: 24;
+}
+
+.view-button {
+    -fx-background-color: #6d5e0f;
+    -fx-text-fill: white;
+    -fx-background-radius: 25;
+}
+
+.material-card {
+    -fx-background-color: #e0d9cc;
+    -fx-padding: 16;
+    -fx-background-radius: 12;
+}
+
+.value-text {
+    -fx-font-family: "Roboto";
+    -fx-font-weight: 700;
+    -fx-font-size: 24;
+}
+
+.changes-green {
+    -fx-text-fill: green;
+    -fx-font-family: "Roboto";
+    -fx-font-weight: 700;
+}
+
+.material-icon-box {
+    -fx-background-color: #665e40;
+    -fx-background-radius: 124;
+}
+
+.category-text {
+    -fx-font-family: "Roboto";
+    -fx-font-weight: 700;
+    -fx-font-size: 20;
+}
+
+.material-button {
+    -fx-background-color: #e0d9cc;
+    -fx-background-radius: 25;
+    -fx-font-family: "Roboto";
+    -fx-font-weight: 700;
+    -fx-padding: 0 24 0 16;
+}
+
+.material-button:hover {
+    -fx-background-color: #eee2bc;
+}
+
+.material-button:pressed {
+    -fx-background-color: #6d5e0f;
+}
+
+.material-button:pressed .material-button-text {
+    -fx-text-fill: white;
+}
+
+.yes-category {
+    -fx-background-color: white;
+    -fx-background-radius: 25;
+}
+
+.yes-text {
+    -fx-text-fill: white;
+}
+
+.no-category {
+    -fx-background-color: #6d5e0f;
+}
+
+.material-text-bold {
+    -fx-font-family: "Roboto";
+    -fx-font-weight: 700;
+}
+
+.material-card-title {
+    -fx-font-family: "Roboto";
+    -fx-font-weight: 700;
+    -fx-font-size: 16;
+}
+
+.material-button-text {
+    -fx-font-family: "Roboto";
+    -fx-font-size: 14;
+    -fx-font-weight: 500;
+}
+
+.material-table-body {
+    -fx-padding: 16 24;
+    -fx-background-color: #e0d9cc;
+}
+
+.material-table-title {
+    -fx-padding: 8 16;
+    -fx-background-color: #665e40;
+}
+
+.material-table-title-text {
+    -fx-text-fill: white;
+    -fx-font-weight: 700;
+}
+
+.material-selection-card {
+    -fx-background-color: #e0d9cc;
+    -fx-padding: 8 16;
+    -fx-background-radius: 12;
+}
+
+.material-textfield {
+    -fx-background-color: white;
+    -fx-padding: 0;
+}
+
+.material-textfield-text {
+    -fx-font-weight: 700;
+}
+
+.material-textfield-box {
+    -fx-background-color: white;
+    -fx-padding: 8 16;
+    -fx-background-radius: 12 12 0 0;
+    -fx-border-style: hidden hidden solid hidden;
+    -fx-border-width: 1;
+    -fx-border-color: #6d5e0f;
+}

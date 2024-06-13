@@ -1,0 +1,7 @@
+13/06/2024,100.00,test1,test1 - Initial Balance,Income
+13/06/2024,1000.00,terst,terst - Initial Balance,Income
+13/06/2024,10.00,test4,test4 - Initial Balance,Income
+13/06/2024,20.00,tet4,tet4 - Initial Balance,Income
+test,10.00,test1,test,Income
+test,10.00,test1,test,Income
+test,10.00,test1,test,Expenses
