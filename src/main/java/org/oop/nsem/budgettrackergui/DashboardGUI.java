@@ -140,7 +140,7 @@ public class DashboardGUI {
     private void triggerHome() {
         DashboardGUI dashboard = new DashboardGUI(currentUserId, user);
         dashBox.getChildren().remove(0);
-        dashBox.getChildren().add(new VBox());
+        dashBox.getChildren().add(createUi());
     }
 
     private void triggerBudget() {

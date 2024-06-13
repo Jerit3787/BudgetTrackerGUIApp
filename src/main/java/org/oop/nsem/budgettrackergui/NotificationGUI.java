@@ -55,10 +55,8 @@ public class NotificationGUI {
     }
 
     public VBox createUI() {
-        HBox addButton = ui.createButton("Remind", "mdi2c-calendar-plus", () -> {});
-        HBox filterButton = ui.createButton("Clear", "mdi2n-notification-clear-all", () -> {});
 
-        HBox topBar = ui.createTopBar("Notification", addButton, filterButton);
+        HBox topBar = ui.createTopBar("Notification");
 
         VBox transactions = createTable();
 
